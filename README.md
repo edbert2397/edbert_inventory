@@ -60,3 +60,65 @@ urlpatterns = [
 ]
 ```
 Dengan begini ketika kita menuju `http://localhost:8000/main` pada browser, kita akan dihadapkan dengan apa yang direturn fungsi `show_main` pada `views.py` 
+
+## 4.Membuat fungsi render pada views.py dan membuat main.html dalam folder templates
+
+buat direktori `templates` pada `main` dan buat file html yang akan dirender dengan nama `main.html`. 
+`main.html` yang saya buat sebagai berikut
+
+```python
+<h5>App name: </h5>
+<p>{{name_app}}</p>
+<h5>Name: </h5>
+<p>{{name}}</p>
+<h5>Class: </h5>
+<p>{{class}}</p>
+```
+pada `views.py` kita dapat membuat fungsi untuk mengembalikan `main.html` dengan cara
+
+```python
+from django.shortcuts import render
+
+def show_main(request):
+    context={
+        'name_app' : 'inventory',
+        'name' : 'Edbert',
+        'class' : 'PBP D'
+    }
+    return render(request,"main.html",context)
+```
+
+variabel `name_app`, `name`, `class` pada main.html didapat dari context saat fungsi `show_main` memanggil main.html 
+
+## 5. Membuat model sebagai Database
+Model adalah penghubung python dengan database kita. membuat model dalam file `models.py` pada aplikasi `main` dengan nama `Item`
+```python
+from django.db import models
+
+class Item(models.Model):
+    name = models.CharField(max_length = 255)
+    amount = models.IntegerField()
+    description = models.TextField()
+```
+
+## 6. Melakukan deployment ke Adaptable
+
+## Bagan Aplikasi berbasis django
+TODO
+
+## Mengapa virtual environment
+
+Virtual environment digunakan dalam pengembangan software untuk mengisolasi dan mengelola dependensi proyek secara efisien. Hal ini membantu dalam mencegah konflik dependensi, memastikan kompatibilitas dengan versi Python yang benar. Saat mengembangkan aplikasi web berbasis Django atau proyek software lainnya, sangat disarankan untuk selalu menggunakan virtual environment agar dapat menjalankan proyek dengan lebih lancar dan menghindari masalah yang mungkin timbul akibat konflik dependensi dan versi.
+
+kita masih dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment, tetapi ini tidak disarankan dan dapat mengakibatkan sejumlah masalah. Tanpa virtual environment, proyek Django menggunakan lingkungan Python dan dependensi sistem secara global. Ini dapat menyebabkan konflik dependensi, karena proyek mungkin memerlukan versi paket yang berbeda dengan proyek lain.
+
+# Apa itu MVC, MVT, MVVM
+1. **MVC** (Model View Controller) adalah pattern desain framework yang memisahkan applikasi menjadi 3 komponen, yaitu model, view, dan controller. MVC adalah komponen yang sering digunakan industri untuk membuat applikasi yang scalable dan extensible.
+<img src=https://miro.medium.com/v2/resize:fit:1400/1*hTlpGXMh9EFefBIT9NrTDQ.png width=500 height=250/>
+
+2. **MVT** (Model View Template) adalah pattern desain yang mirip dengan MVC. Perbedaannya adalah controller diimplementasikan oleh framework sendiri sehingga kita hanya perlu membuat template. Memungkinkan untuk pengembangan yang lebih scalable, cepat, namun terdapat ketergantungan terhadap framework yang digunakan.
+<img src=https://miro.medium.com/v2/resize:fit:1400/0*8ZFh-CsrMi7bQG0O.jpg width=500 height=250/>
+
+3. **MVVM** (Model View ViewModel) adalah pattern desain yang fokus pada membedakan user interface (UI) dengan logic dari applikasi kita. Controller pada MVVM berada pada ViewModel. Memungkinkan untuk pemisahan kerja yang lebih baik antara UI dan logic sesuai dengan kelebihan pengembang. ViewModel dapat terlihat sangat kompleks dan susah didebug jika sudah terdapat banyak logic dan binding. 
+<img src=https://media.geeksforgeeks.org/wp-content/uploads/20201002215007/MVVMSchema.png width=500 height=250/>
+

@@ -26,7 +26,7 @@ Saya membuat project baru dengan nama `INVENTORY` dengan cara `django-admin crea
 
 ## 2. Membuat aplikasi dengan nama main
 
-Kemudian saya membuat app baru bernama main dengan cara `python manage.py createapp main`. Applikasi dalam bentuk folder baru dengan nama `APP`. Setelah membuat aplikasi, saya mendaftarkannya pada `settings.py` yang terletak di folder `INVENTORY`. Tambahkan `main` pada `INSTALLED_APPS` sehingaa berbentuk seperti
+Kemudian saya membuat app baru bernama main dengan cara `python manage.py createapp main`. Applikasi dalam bentuk folder baru dengan nama `main`. Setelah membuat aplikasi, saya mendaftarkannya pada `settings.py` yang terletak di folder `INVENTORY`. Tambahkan `main` pada `INSTALLED_APPS` sehingaa berbentuk seperti
 ```python
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -104,7 +104,7 @@ class Item(models.Model):
 ## 6. Melakukan deployment ke Adaptable
 
 ## Bagan Aplikasi berbasis django
-TODO
+<img src=bagan.jpg width = 500 height=250/>
 
 ## Mengapa virtual environment
 

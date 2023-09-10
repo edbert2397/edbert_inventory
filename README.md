@@ -104,7 +104,7 @@ class Item(models.Model):
 ## 6. Melakukan deployment ke Adaptable
 
 ## Bagan Aplikasi berbasis django
-<img src=bagan.jpg width = 500 height=250/>
+<img src=bagan.jpg width = 500 height=300/>
 
 ## Mengapa virtual environment
 

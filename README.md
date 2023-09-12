@@ -1,4 +1,4 @@
-[link adaptable]()
+[link adaptable](https://edbertinventory.adaptable.app/main/)
 # Cara Implementasi
 ## Setup Library yang dibutuhkan
 Pertama-tama, membuat file `requirements.txt` yang berisi
@@ -67,8 +67,7 @@ buat direktori `templates` pada `main` dan buat file html yang akan dirender den
 `main.html` yang saya buat sebagai berikut
 
 ```python
-<h5>App name: </h5>
-<p>{{name_app}}</p>
+<h1>{{name_app}}</h1>
 <h5>Name: </h5>
 <p>{{name}}</p>
 <h5>Class: </h5>

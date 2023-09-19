@@ -121,3 +121,113 @@ kita masih dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual 
 3. **MVVM** (Model View ViewModel) adalah pattern desain yang fokus pada membedakan user interface (UI) dengan logic dari applikasi kita. Controller pada MVVM berada pada ViewModel. Memungkinkan untuk pemisahan kerja yang lebih baik antara UI dan logic sesuai dengan kelebihan pengembang. ViewModel dapat terlihat sangat kompleks dan susah didebug jika sudah terdapat banyak logic dan binding. 
 <img src=https://media.geeksforgeeks.org/wp-content/uploads/20201002215007/MVVMSchema.png width=500 height=250/>
 
+--------------------
+
+# Perbedaan antara POST dan GET pada Django?
+
+POST: Menggunakan metode HTTP POST. Data form dikirim dalam badan permintaan HTTP, yang biasanya tidak terlihat oleh pengguna.POST Lebih aman daripada GET karena data dikirimkan secara tersembunyi dalam badan permintaan HTTP. Ini cocok untuk mengirim data yang sensitif, seperti kata sandi atau informasi pribadi.
+GET: Menggunakan metode HTTP GET. Data form disertakan dalam URL sebagai parameter query string, yang terlihat oleh pengguna. GET juga Kurang aman karena data form terlihat dalam URL, sehingga dapat dengan mudah diakses oleh siapa saja yang melihat URL. 
+
+# Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+
+1.XML (eXtensible Markup Language): XML adalah bahasa markup yang digunakan untuk menggambarkan data dalam bentuk dokumen berhierarki. Sistem XML mirip seperti tree yang memiliki 1 root.
+2.JSON (JavaScript Object Notation): data nya disimpan dalam bentuk key-value seperti dictionary dalam python. JSON seringkali digunakan dalam pengiriman data antar web API.
+3.HTML (Hypertext Markup Language): HTML adalah bahasa markup khusus yang digunakan untuk membuat halaman web dengan tujuan utamanya adalah mengatur tampilan dan konten halaman web dan tidak efisien untuk menstrafer data secara murni.
+
+# Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+
+JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena kesederhanaan, keringanan, dan kompatibilitasnya. JSON yang berbentuk key-value sperti dictionary tersebut juga cukup human readable. 
+
+# Cara Implementasi
+
+## Membuat Form (`forms.py`)
+
+`APP/forms.py` akan mengimplementasikan library `django.forms` yang akan mempermudah pembuatan form kita karena seluruh html sudah dihandle oleh library form tersebut. Contoh isi `APP/forms.py` adalah.
+```python
+from django.forms import ModelForm
+from main.models import Item
+
+class ItemForm(ModelForm):
+    class Meta:
+        model = Item
+        fields = ["name","amount","description"]
+```
+dimana `name`, `amount`, dan `description` adalah field yang ada pada model `Item` yang sudah didefinisikan.
+
+## Merender form yang dibuat
+
+Untuk merender form yang sudah kita buat, kita dapat menggunakan kemudahan library django. Pada `create_item.html`, kita tinggal menulis code sebagai berikut
+
+```html
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Add Product"/>
+            </td>
+        </tr>
+    </table>
+</form>
+```
+`csrf_token` token wajib didefinisikan setiap definisi form, hal ini terkait dengan keamanan. `form.as_table` akan merender form secara keseluruhan kecuali button submit yang perlu kita tulis sendiri.
+
+## Menambahkan masing-masing function pada views.py untuk serializer json dan xml
+
+```python
+def show_xml(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("xml",data),content_type="application/xml")
+
+def show_json(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("json",data),content_type = "application/json")
+
+def show_xml_by_id(request,id):
+    data = Item.objects.filter(pk = id)
+    return HttpResponse(serializers.serialize("xml",data),content_type = "application/xml")
+
+def show_json_by_id(request,id):
+    data = Item.objects.filter(pk = id)
+    return HttpResponse(serializers.serialize("json",data),content_type = "application/json")
+```
+
+## Menambahkan routing pada dalam urls.py
+
+```python
+from django.urls import path
+from main.views import show_main,create_item,show_xml,show_json,show_xml_by_id,show_json_by_id
+app_name = 'main'
+
+urlpatterns=[
+    path('',show_main,name = 'show_main'),
+    path('create-item',create_item,name = 'create_item'),
+    path('xml/',show_xml,name = 'show_xml'),
+    path('json/',show_json,name='show_json'),
+    path('xml/<int:id>/',show_xml_by_id,name="show_xml_by_id"),
+    path('json/<int:id>/',show_json_by_id,name = "show_json_by_id"),
+]
+```
+`<int:id>` merupakan contoh dynamic routing yang mana nilai `id` berupa sebuah angka
+
+## SS hasil Postman
+
+1.HTML  
+<img src = "html.png" width = 300 height = 300/>
+
+2.JSON
+<img src = "json.png" width = 300 height = 300/>
+
+3.XML
+<img src = "xml.png" width = 300 height = 300/>
+
+4.JSON (by id)
+<img src = "json1.png" width = 300 height = 300/>
+
+5.XML (by id)
+<img src = "xml1.png" width = 300 height = 300/>
+
+
+

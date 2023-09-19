@@ -1,5 +1,35 @@
-<h1>{{name_app}}</h1>
-<h5>Name: </h5>
-<p>{{name}}</p>
-<h5>Class: </h5>
-<p>{{class}}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-3xl font-semibold">{{ name_app }}</h1>
+<h2 class="text-lg mt-4">{{ cnt }} books</h2>
+
+<table class="min-w-full border-collapse border border-gray-300 mt-4">
+    <thead>
+        <tr>
+            <th class="px-4 py-2 bg-gray-200 text-gray-700">Name</th>
+            <th class="px-4 py-2 bg-gray-200 text-gray-700">Amount</th>
+            <th class="px-4 py-2 bg-gray-200 text-gray-700">Description</th>
+            <th class="px-4 py-2 bg-gray-200 text-gray-700">Date Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        {% for item in items %}
+            <tr>
+                <td class="px-4 py-2 border border-gray-300">{{ item.name }}</td>
+                <td class="px-4 py-2 border border-gray-300">{{ item.amount }}</td>
+                <td class="px-4 py-2 border border-gray-300">{{ item.description }}</td>
+                <td class="px-4 py-2 border border-gray-300">{{ item.date_added }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Add New Item
+    </a>
+</div>
+
+{% endblock content %}

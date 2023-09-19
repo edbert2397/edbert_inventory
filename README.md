@@ -215,7 +215,7 @@ urlpatterns=[
 ## SS hasil Postman
 
 1.HTML
-<img src = "html.png" width = 400 height = 400/>
+<img src = "html.png"/>
 
 2.JSON
 <img src = "json.png"/>

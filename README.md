@@ -133,12 +133,15 @@ kita masih dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual 
 # Perbedaan antara POST dan GET pada Django?
 
 POST: Menggunakan metode HTTP POST. Data form dikirim dalam badan permintaan HTTP, yang biasanya tidak terlihat oleh pengguna.POST Lebih aman daripada GET karena data dikirimkan secara tersembunyi dalam badan permintaan HTTP. Ini cocok untuk mengirim data yang sensitif, seperti kata sandi atau informasi pribadi.
+
 GET: Menggunakan metode HTTP GET. Data form disertakan dalam URL sebagai parameter query string, yang terlihat oleh pengguna. GET juga Kurang aman karena data form terlihat dalam URL, sehingga dapat dengan mudah diakses oleh siapa saja yang melihat URL. 
 
 # Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 
 1.XML (eXtensible Markup Language): XML adalah bahasa markup yang digunakan untuk menggambarkan data dalam bentuk dokumen berhierarki. Sistem XML mirip seperti tree yang memiliki 1 root.
+
 2.JSON (JavaScript Object Notation): data nya disimpan dalam bentuk key-value seperti dictionary dalam python. JSON seringkali digunakan dalam pengiriman data antar web API.
+
 3.HTML (Hypertext Markup Language): HTML adalah bahasa markup khusus yang digunakan untuk membuat halaman web dengan tujuan utamanya adalah mengatur tampilan dan konten halaman web dan tidak efisien untuk menstrafer data secara murni.
 
 # Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?

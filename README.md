@@ -215,19 +215,19 @@ urlpatterns=[
 ## SS hasil Postman
 
 1.HTML  
-<img src = "html.png" width = 600 height = 300/>
+<img src = "html.png"/>
 
 2.JSON
-<img src = "json.png" width = 600 height = 300/>
+<img src = "json.png"/>
 
 3.XML
-<img src = "xml.png" width = 600 height = 300/>
+<img src = "xml.png"/>
 
 4.JSON (by id)
-<img src = "json1.png" width = 600 height = 300/>
+<img src = "json1.png"/>
 
 5.XML (by id)
-<img src = "xml1.png" width = 600 height = 300/>
+<img src = "xml1.png"/>
 
 
 

@@ -2,6 +2,7 @@
 
 <details>
 <summary>Tugas 2</summary>
+
 # Cara Implementasi
 ## Setup Library yang dibutuhkan
 Pertama-tama, membuat file `requirements.txt` yang berisi
@@ -128,6 +129,7 @@ kita masih dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual 
 
 <details>
 <summary>Tugas 3</summary>
+
 # Perbedaan antara POST dan GET pada Django?
 
 POST: Menggunakan metode HTTP POST. Data form dikirim dalam badan permintaan HTTP, yang biasanya tidak terlihat oleh pengguna.POST Lebih aman daripada GET karena data dikirimkan secara tersembunyi dalam badan permintaan HTTP. Ini cocok untuk mengirim data yang sensitif, seperti kata sandi atau informasi pribadi.

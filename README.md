@@ -1,4 +1,3 @@
-[link adaptable](https://edbertinventory.adaptable.app/main/)
 
 <details>
 <summary>Tugas 2</summary>

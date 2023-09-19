@@ -1,4 +1,7 @@
 [link adaptable](https://edbertinventory.adaptable.app/main/)
+
+<details>
+<summary>Tugas 2</summary>
 # Cara Implementasi
 ## Setup Library yang dibutuhkan
 Pertama-tama, membuat file `requirements.txt` yang berisi
@@ -121,8 +124,10 @@ kita masih dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual 
 3. **MVVM** (Model View ViewModel) adalah pattern desain yang fokus pada membedakan user interface (UI) dengan logic dari applikasi kita. Controller pada MVVM berada pada ViewModel. Memungkinkan untuk pemisahan kerja yang lebih baik antara UI dan logic sesuai dengan kelebihan pengembang. ViewModel dapat terlihat sangat kompleks dan susah didebug jika sudah terdapat banyak logic dan binding. 
 <img src=https://media.geeksforgeeks.org/wp-content/uploads/20201002215007/MVVMSchema.png width=500 height=250/>
 
---------------------
+</details>
 
+<details>
+<summary>Tugas 3</summary>
 # Perbedaan antara POST dan GET pada Django?
 
 POST: Menggunakan metode HTTP POST. Data form dikirim dalam badan permintaan HTTP, yang biasanya tidak terlihat oleh pengguna.POST Lebih aman daripada GET karena data dikirimkan secara tersembunyi dalam badan permintaan HTTP. Ini cocok untuk mengirim data yang sensitif, seperti kata sandi atau informasi pribadi.
@@ -229,5 +234,5 @@ urlpatterns=[
 5.XML (by id)
 <img src = "xml1.png"/>
 
-
+</details>
 

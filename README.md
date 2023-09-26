@@ -240,3 +240,291 @@ urlpatterns=[
 
 </details>
 
+<details>
+
+<summary>Tugas 4</summary>
+
+# Cara Implementasi
+
+## 1.Membuat html register page
+
+Membuat register html dengan pesan jika registrasi user berhasil.
+
+contoh code nya :
+
+```python
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+    
+    <h1>Register</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+```
+form adalah form django yang di passing dari fungsi `register` yang kita buat dalam views.py seperti ini:
+
+```python
+def register(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Your account has been successfully created!')
+            return redirect('main:login')
+    context = {'form':form}
+    return render(request,'register.html',context)
+    
+```
+`UserCreationForm` untuk membuat form pembuatan user. Jika form tersebut valid maka data dalam form tersebut akan di save dan terdapat pesan sukses
+
+## 2. Membuat Page Login
+Membuat page login.html dengan contoh code seperti ini:
+
+```python
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+
+</div>
+
+{% endblock content %}
+```
+Pada page tersebut, kita diminta untuk mengisi username dan passwordnya.
+
+Kemudian saya buat function login_user dalam views.py seperti ini:
+
+```python
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request,username = username,password = password)
+        if(user is not None):
+            login(request,user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login',str(datetime.datetime.now()))
+            return response
+        else:
+            messages.info(request,'Sorry,incorrect username or password. Please try again.')
+    context = {}
+    return render(request,'login.html',context)
+
+```
+Pada function tersebut, username dan password yang diinput dicek dengan menggunakan django `authenticate` untuk memverifikasi user yang sudah disave sebelumnya. kemudian terdapat login yaitu method bawaan django untuk memberi tau user yang sedang login. Kemudian disitu juga terdapat ` response.set_cookie('last_login',str(datetime.datetime.now()))` untuk memberi tau bahwa user tersebut login pada saat tersebut. 
+
+Untuk membatasi agar sebuah page harus ada login user untuk dapat diakses, maka kita bisa menambahkan `@login_required(login_url = '/login')` diatas function page tersebut dalam views.py
+
+## 3. Implementasi Logout User
+
+Mengimplementasikan fungsi logout user dalam views.py seperti ini:
+```python
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+
+disitu juga ada `response.delete_cookie('last_login')` agar informasi last login user tersebut dihapus
+
+## 4. Membuat 2 akun pengguna dan membuat 3 dummy data pada masing-masing akun pengguna
+
+register 2 akun yang berbeda, untuk setiap akun, login kemudian tambahkan 3 dummy data
+
+## 5. Menghubungkan model item dengan user
+
+Menghubungkan user dengan model pada django menggunakan interface `user` dan menambahkannya sebagai ForeignKey.
+
+```python
+from django.db import models
+from django.contrib.auth.models import User
+
+class Item(models.Model):
+    name = models.CharField(max_length = 255)
+    date_added= models.DateField(auto_now_add=True)
+    amount = models.IntegerField()
+    description = models.TextField()
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+```
+
+Pada saat kita ingin membuat object item pada suatu akun, maka kita perlu untuk mengassign user tersebut, sehingga fungsi `create_item` pada views.py akan seperti ini:
+
+```python
+def create_item(request):
+    form = ItemForm(request.POST or None)
+    if form.is_valid() and request.method == "POST":
+        item = form.save(commit = False)
+        item.user = request.user
+        item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+    
+    context = {'form':form}
+    return render(request,"create_item.html",context)
+```
+disitu terdapat `item.user = request.user` untuk mengassign terlebih dahulu user tersebut sebelum menyimpan data.
+
+## 6. Menampilkan detail informasi pengguna, username yang sedang log in dan menerapkan cookies seperti last login pada halaman utama aplikasi
+
+fungsi show_main yang menampilkan halaman utama aplikasi seperti ini:
+
+```python
+@login_required(login_url = '/login')
+def show_main(request):
+    items = Item.objects.filter(user = request.user)
+    cnt = len(items)
+    context={
+        'name_app' : 'inventory',
+        'name' : request.user.username,
+        'class' : 'PBP D',
+        'items' : items,
+        'cnt': cnt,
+        'last_login':request.COOKIES['last_login'],
+    }
+    return render(request,"main.html",context)
+```
+
+dalam context tersebut, `name` yang didapat dari `request.user.username` dan `last_login` didapat dari `request.COOKIES['last_login']`
+
+## 7. Mengimplementasikan increase amount, decrease amount, dan delete item
+
+membuat delte button pada main.html
+`<a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Delete</a>`
+
+ketika delete dipencet maka akan di kirim ke url `/delete_item` beserta item_id nya.
+
+url `main:delete_item` seperti ini `path('delete_item/<int:item_id>/', delete_item,name = "delete_item"),` , ia memanggil function delete_item pada views.py
+
+```python
+def delete_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+```
+item dengan id tersebut didelete kemudian path dikembalikan ke homepage
+
+membuat increase button pada main.html
+`<a href="{% url 'main:increase_item' item.id %}" class="text-red-500 hover:text-red-700">Increase</a>`
+
+ketika increase dipencet maka akan di kirim ke url `/increase_item` beserta item_id nya.
+
+url `main:increase_item` seperti ini `path('increase_item/<int:item_id>/',increase_item,name = "increase_item"),` , ia memanggil function increase_item pada views.py
+
+```python
+def increase_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    item.amount += 1 
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+```
+item dengan id tersebut amount nya ditambah dengan 1 kemudian path dikembalikan ke homepage 
+
+membuat decrease button pada main.html
+`path('decrease_item/<int:item_id>/', decrease_item,name = "decrease_item"),`
+
+ketika decrease dipencet maka akan di kirim ke url `/decrease_item` beserta item_id nya.
+
+url `main:decrease_item` seperti ini `path('decrease_item/<int:item_id>/', decrease_item,name = "decrease_item"),` , ia memanggil function decrease_item pada views.py
+
+```python
+def decrease_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    if(item.amount > 0):
+        item.amount -= 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+
+```
+item dengan id tersebut amount nya dikurang dengan 1 jika amountnya > 0, kemudian path dikembalikan ke homepage 
+
+## 8. Django UserCreationForm
+
+Form bawaan dari django untuk memudahkan pembuatan user.
+Kelebihannya adalah cepat dan mudah dipakai
+Kekurangannya adalah form bawaan tersebut susah di kustomisasi
+
+## 9. Perbedaan antara autentikasi dan otorisasi dalam Django dan mengapa keduanya penting
+
+Autentikasi adalah proses verifikasi login user, sedangkan otorisasi adalah proses verifikasi akses user.
+
+Keduanya mengatur hal yang berbeda dan penting dalam menjaga web security
+
+## 10. Cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna
+
+Cookies adalah tempat penyimpanan bersifat sementara yang diberikan dari server web kepada browser. Browser kemudian menyimpan cookie dan kemudian selalu menyisipkan cookie pada request browser selanjutnya pada website tersebut. Pada browser, cookie tersebut memiliki variable nama dan value (data yang disimpan), domain website dan sebagainya.
+
+## Apakah penggunakan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai 
+
+Cookies disimpan pada client sehingga keamanan bergantung sepenuhnya pada aktivitas client. Cookie secara transparan dapat dilihat oleh client sehingga data sensitif seharusnya tidak ditunjukkan. Karena sifatnya yang transparan, cookie dapat dicopy dan ditiru.
+
+
+</details>
+

@@ -27,6 +27,15 @@
                 <td class="px-4 py-2 border border-gray-300">{{ item.amount }}</td>
                 <td class="px-4 py-2 border border-gray-300">{{ item.description }}</td>
                 <td class="px-4 py-2 border border-gray-300">{{ item.date_added }}</td>
+                <td class="px-4 py-2 border border-gray-300">
+                    <a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Delete</a>
+                </td> 
+                <td class="px-4 py-2 border border-gray-300">
+                    <a href="{% url 'main:increase_item' item.id %}" class="text-red-500 hover:text-red-700">Increase</a>
+                </td> 
+                <td class="px-4 py-2 border border-gray-300">
+                    <a href="{% url 'main:decrease_item' item.id %}" class="text-red-500 hover:text-red-700">Decrease</a>
+                </td> 
             </tr>
         {% endfor %}
     </tbody>

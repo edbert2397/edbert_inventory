@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 import datetime
 
-@login_required(login_url = '/login')
+@login_required(login_url='/login')
 def show_main(request):
     items = Item.objects.filter(user = request.user)
     cnt = len(items)
@@ -35,6 +35,23 @@ def create_item(request):
     
     context = {'form':form}
     return render(request,"create_item.html",context)
+
+def delete_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def increase_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    item.amount += 1 
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+def decrease_item(request,item_id):
+    item = Item.objects.get(pk = item_id)
+    if(item.amount > 0):
+        item.amount -= 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
 
 def show_xml(request):
     data = Item.objects.all()

@@ -543,7 +543,7 @@ p {
   color: red;
 }
 ```
-Dalam contoh di atas, semua elemen <p> (paragraf) dalam halaman HTML akan memiliki warna teks biru.
+Dalam contoh di atas, semua elemen `<p>` (paragraf) dalam halaman HTML akan memiliki warna teks merah.
 
 2. ID Selector:
 Selector ini digunakan untuk memilih elemen dengan atribut "id" tertentu.
@@ -567,11 +567,11 @@ elemen dengan atribut class="btn-primary" akan memiliki latar belakang berwarna 
 HTML5 adalah versi terbaru dari HTML.
 terdapat tag-tag dasar yang mungkin sudah cukup umum seperti `<head>, <body>, <p>, <a>`
 terdapat juga beberapa tag lain seperti :
-`<nav>` untuk mendifinisikan bagian navigasi dari halaman web
-`<header>` mengandung elemen-elemen yang berada di bagian atas halaman web atau bagian atas bagian lain dari halaman web. Biasanya, ini termasuk judul, logo, dan menu navigasi.
-`<footer>` Elemen ini berada di bagian bawah halaman web
-`<article>` digunakan untuk menandai konten independen dalam halaman web. Ini bisa berupa artikel berita, posting blog, ulasan, atau konten mandiri lainnya.
-`<section>` digunakan untuk mengelompokkan konten terkait dalam halaman web. 
+1.`<nav>` untuk mendifinisikan bagian navigasi dari halaman web.
+2.`<header>` mengandung elemen-elemen yang berada di bagian atas halaman web atau bagian atas bagian lain dari halaman web. Biasanya, ini termasuk judul, logo, dan menu navigasi.
+3.`<footer>` Elemen ini berada di bagian bawah halaman web.
+4.`<article>` digunakan untuk menandai konten independen dalam halaman web. Ini bisa berupa artikel berita, posting blog, ulasan, atau konten mandiri lainnya.
+5.`<section>` digunakan untuk mengelompokkan konten terkait dalam halaman web. 
 
 ## Jelaskan perbedaan antara margin dan padding.
 Margin dan padding adalah 2 properti dalam css yang mengatur tata letak antar elemen. Margin mengatur tata letak antar elemen tersebut dengan sekitarnya, sedangkan padding mengatur tata letak elemen dalam tag tersebut. Contoh yang bagus adalah button yang memiliki content text didalamnya.

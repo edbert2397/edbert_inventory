@@ -565,12 +565,18 @@ elemen dengan atribut class="btn-primary" akan memiliki latar belakang berwarna 
 
 ## Jelaskan HTML5 Tag yang kamu ketahui.
 HTML5 adalah versi terbaru dari HTML.
-terdapat tag-tag dasar yang mungkin sudah cukup umum seperti `<head>, <body>, <p>, <a>`
+
+terdapat tag-tag dasar yang mungkin sudah cukup umum seperti `<head>, <body>, <p>, <a>`.
+
 terdapat juga beberapa tag lain seperti :
 1.`<nav>` untuk mendifinisikan bagian navigasi dari halaman web.
+
 2.`<header>` mengandung elemen-elemen yang berada di bagian atas halaman web atau bagian atas bagian lain dari halaman web. Biasanya, ini termasuk judul, logo, dan menu navigasi.
+
 3.`<footer>` Elemen ini berada di bagian bawah halaman web.
+
 4.`<article>` digunakan untuk menandai konten independen dalam halaman web. Ini bisa berupa artikel berita, posting blog, ulasan, atau konten mandiri lainnya.
+
 5.`<section>` digunakan untuk mengelompokkan konten terkait dalam halaman web. 
 
 ## Jelaskan perbedaan antara margin dan padding.

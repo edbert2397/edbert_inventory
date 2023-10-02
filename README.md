@@ -528,3 +528,62 @@ Cookies disimpan pada client sehingga keamanan bergantung sepenuhnya pada aktivi
 
 </details>
 
+<details>
+
+<summary> Tugas 5 </summary>
+
+## Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+
+Di CSS, "selector" dapat digunakan untuk memilih dan mengganti gaya elemen HTML. Selector dapat digunakan untuk memberikan styling pada suatu tag html.
+
+1. Element Selector:
+Selector ini digunakan untuk memilih semua elemen HTML dengan nama elemen tertentu.
+```python
+p {
+  color: red;
+}
+```
+Dalam contoh di atas, semua elemen <p> (paragraf) dalam halaman HTML akan memiliki warna teks biru.
+
+2. ID Selector:
+Selector ini digunakan untuk memilih elemen dengan atribut "id" tertentu.
+```python
+#header {
+  background-color: red;
+}
+```
+elemen dengan atribut id = "header" akan memiliki background berwarna merah.
+
+3. Class Selector:
+Selector ini digunakan untuk memilih elemen dengan atribut "class" tertentu.
+```python
+.btn-primary {
+  background-color: red;
+}
+```
+elemen dengan atribut class="btn-primary" akan memiliki latar belakang berwarna merah.
+
+## Jelaskan HTML5 Tag yang kamu ketahui.
+HTML5 adalah versi terbaru dari HTML.
+terdapat tag-tag dasar yang mungkin sudah cukup umum seperti `<head>, <body>, <p>, <a>`
+terdapat juga beberapa tag lain seperti :
+`<nav>` untuk mendifinisikan bagian navigasi dari halaman web
+`<header>` mengandung elemen-elemen yang berada di bagian atas halaman web atau bagian atas bagian lain dari halaman web. Biasanya, ini termasuk judul, logo, dan menu navigasi.
+`<footer>` Elemen ini berada di bagian bawah halaman web
+`<article>` digunakan untuk menandai konten independen dalam halaman web. Ini bisa berupa artikel berita, posting blog, ulasan, atau konten mandiri lainnya.
+`<section>` digunakan untuk mengelompokkan konten terkait dalam halaman web. 
+
+## Jelaskan perbedaan antara margin dan padding.
+Margin dan padding adalah 2 properti dalam css yang mengatur tata letak antar elemen. Margin mengatur tata letak antar elemen tersebut dengan sekitarnya, sedangkan padding mengatur tata letak elemen dalam tag tersebut. Contoh yang bagus adalah button yang memiliki content text didalamnya.
+
+<img src = "https://cdn.discordapp.com/attachments/933332644916260885/1158456758856073216/margin_vs_padding.png?ex=651c506e&is=651afeee&hm=3562dd6080fafc4808e8f72c39f2dac7dc9f5e4b1057d27655401549a4c794a9&">
+
+## Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+
+Bootstrap menggunakan gaya dan komponen yang telah didefinisikan, sedangkan Tailwind css membangun tampilan dengan menggabungkan kelas-kelas utilitas yang telah didefinisikan sebelumnya.
+
+Tailwind css memberikan fleksibilitas dan adaptabilitas yang tinggi, sedangkan Bootstrap sering kali menghasilkan tampilan yang lebih konsisten karena menggunakan komponen yang telah didefinisikan. 
+
+Tailwind lebih baik digunakan saat memberikan styling yang lebih kompleks dan unik dalam jangka waktu yang lebih lama, sedangkan Bootstrap digunakan saat memberikan styling yang lebih sederhana dalam jangka waktu yang lebih cepat. 
+
+</details>

@@ -6,39 +6,39 @@
 
 {% block content %}
 
-<div class = "login">
+<div class = "flex justify-center items-center h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
 
-    <h1>Login</h1>
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
+        <h1 class = "text-3xl font-semibold mb-6">Login</h1>
+    
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class = "mb-4 flex flex-col">
+                <label class="text-sm font-medium text-gray-600">Username: </label>
+                <input type="text" name="username" placeholder="Username" class="mt-1 p-2 w-full border rounded">
+            </div>
                     
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+            <div class="mb-4 flex flex-col">
+                <label class = "text-sm font-medium text-gray-600">Password: </label>
+                <input type="password" name="password" placeholder="Password" class="mt-1 p-2 w-full border rounded">
+            </div>
+            <div class = "mb-4 text-center">
+                <button class="bg-blue-500 rounded-full px-4 py-2 text-xl text-white mt-2">
+                    Login
+                </button>
+            </div>
+        </form>
+    
+        {% if messages %}
+            <ul class = "text-base mt-4 text-red-500">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}     
+        <p class="mt-4">Don't have an account yet? <a href="{% url 'main:register' %}" class="text-blue-500 hover:underline">Register Now</a></p>
+    </div>
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
-        
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
 
 </div>
 

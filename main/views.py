@@ -16,7 +16,7 @@ def show_main(request):
     items = Item.objects.filter(user = request.user)
     cnt = len(items)
     context={
-        'name_app' : 'inventory',
+        'name_app' : 'Inventory',
         'name' : request.user.username,
         'class' : 'PBP D',
         'items' : items,

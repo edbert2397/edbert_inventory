@@ -569,6 +569,7 @@ HTML5 adalah versi terbaru dari HTML.
 terdapat tag-tag dasar yang mungkin sudah cukup umum seperti `<head>, <body>, <p>, <a>`.
 
 terdapat juga beberapa tag lain seperti :
+
 1.`<nav>` untuk mendifinisikan bagian navigasi dari halaman web.
 
 2.`<header>` mengandung elemen-elemen yang berada di bagian atas halaman web atau bagian atas bagian lain dari halaman web. Biasanya, ini termasuk judul, logo, dan menu navigasi.

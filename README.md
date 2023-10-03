@@ -534,6 +534,12 @@ Cookies disimpan pada client sehingga keamanan bergantung sepenuhnya pada aktivi
 
 # Cara Implementasi
 
+Pertama-tama, menambahkan tailwind `play CDN script` ke tag  `<head>` pada file base.html
+
+```python
+    <script src="https://cdn.tailwindcss.com"></script>
+```
+
 ## 1.Kustomisasi page main
 
 Pada halaman daftar inventori, saya membuat container yang memiliki background abu-abu muda yang berisi tabel daftar inventori. Saya menambahkan margin dan padding untuk tata letaknya. 

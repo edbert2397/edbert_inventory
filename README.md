@@ -554,6 +554,17 @@ Pada setiap row, terdapat button delete, increase amount, dan decrease amount ya
 ```
 Di bagian paling bawah, terdapat informasi sesi terakhir login dan button Add new item juga logout. Saya style dengan `justify-between` agar komponen menyebar di tepi kiri dan kanan. Button Add new item dan logout juga diberi warna dan space antar button.
 
+```python
+<div class="flex justify-between items-center">
+    <h5 class="text-lg font-semibold">Sesi terakhir login: {{ last_login }}</h5>
+    
+    <div class="flex space-x-4">
+        <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New Item</a>
+        <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</a>
+    </div>
+</div>
+```
+
 ## 2.Kustomisasi page login
 
 Pada halaman login, saya style container dengan `flex justify-center items-center` agar container berada pada tengah screen.

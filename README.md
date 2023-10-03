@@ -532,6 +532,129 @@ Cookies disimpan pada client sehingga keamanan bergantung sepenuhnya pada aktivi
 
 <summary> Tugas 5 </summary>
 
+# Cara Implementasi
+
+## 1.Kustomisasi page main
+
+Pada halaman daftar inventori, saya membuat container yang memiliki background abu-abu muda yang berisi tabel daftar inventori. Saya menambahkan margin dan padding untuk tata letaknya. 
+```python
+<div class="container mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-lg">
+
+
+```
+Didalam container tersebut, saya menggunakan tabel dengan beberapa kustomisasi seperti memberikan `border-b` pada setiap row. 
+
+Pada setiap row, terdapat button delete, increase amount, dan decrease amount yang telah diberi warna dan warnanya menjadi lebih gelap saat dihover. 
+```python
+<a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Delete</a>
+
+<a href="{% url 'main:increase_item' item.id %}" class="text-green-500 hover:text-green-700">Increase</a>
+
+<a href="{% url 'main:decrease_item' item.id %}" class="text-orange-500 hover:text-orange-700">Decrease</a>
+```
+Di bagian paling bawah, terdapat informasi sesi terakhir login dan button Add new item juga logout. Saya style dengan `justify-between` agar komponen menyebar di tepi kiri dan kanan. Button Add new item dan logout juga diberi warna dan space antar button.
+
+## 2.Kustomisasi page login
+
+Pada halaman login, saya style container dengan `flex justify-center items-center` agar container berada pada tengah screen.
+
+```python
+<div class = "flex justify-center items-center h-screen bg-gray-100">
+```
+
+Pada button login, saya menambahkan background biru, padding, dan berbentuk `rounded-full`. 
+```python
+<button class="bg-blue-500 rounded-full px-4 py-2 text-xl text-white mt-2">Login</button>
+```
+Jika terdapat message seperti login tidak berhasil, saya menambahkan warna merah pada teks tersebut.
+
+```python
+{% if messages %}
+    <ul class = "text-base mt-4 text-red-500">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}     
+```
+## 3.Kustomisasi page register
+
+Pada halaman register, saya style mirip dengan login dengan `flex justify-center items-center` agar container berada pada tengah screen.
+
+```python
+<div class = "flex justify-center items-center h-screen bg-gray-100">
+```
+
+memisah-misah komponen pertanyaan pada form agar memiliki margin bottom seperti ini,
+
+```python
+<div class="mb-4">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+</div>
+```
+
+Pada button register, saya pun mengkustomisasi dengan menambah background biru, menjadi biru gelap ketika dihover, dan berbentuk `rounded-full`.
+
+```python
+<button type="submit" class="py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white rounded-full focus:outline-none focus:shadow-outline">Register</button>
+```
+
+## 4. Kustomisasi Page Create New Item
+
+Pertama-tama, input field pada item form dipisah-pisah terlebih dahulu dalam bentuk widgets agar dapat dikustomisasi dan dapat ditampilkan secara terpisah.
+
+```python
+widgets = {
+    "name": TextInput(attrs={
+        'class': 'min-w-[370px] border-2 focus:bg-gray-100 px-[12px] py-[6px]',
+        'placeholder': 'Enter Name',
+    }),
+    "amount": NumberInput(attrs={
+        'class': 'min-w-[370px] border-2 focus:bg-gray-100 px-[12px] py-[6px]',
+        'min': 1,
+        'placeholder': 'Enter Amount',
+    }),
+    "description": Textarea(attrs={
+        'class': 'min-w-[370px] max-h-[150px] border-2 focus:bg-gray-100 px-[12px] py-[6px]',
+        'placeholder': 'Enter Description',
+    })
+}
+```
+Pada halaman Add new item, saya style mirip dengan login dengan `flex justify-center items-center` agar container berada pada tengah screen.
+
+```python
+<div class = "flex justify-center items-center h-screen bg-gray-100">
+```
+
+memisah-misah komponen pertanyaan pada form agar memiliki margin bottom seperti ini,
+
+```python
+ <tr>
+    <td>
+        <h1 class="font-medium">Name</h1>
+    </td>
+</tr>
+
+<tr class="mb-5">
+    <td>
+        {{form.name}}
+    </td>
+</tr>
+```
+
+input type submit pun saya kostumisasi dengan code seperti ini:
+
+```python
+<tr class="flex justify-center">
+    <td class="flex justify-center w-1/2 bg-blue-500 text-white py-1 items-center rounded-lg">
+        <input type="submit" value="Add Item"/>
+    </td>
+</tr>
+```
+
+# Pertanyaan
+
 ## Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
 
 Di CSS, "selector" dapat digunakan untuk memilih dan mengganti gaya elemen HTML. Selector dapat digunakan untuk memberikan styling pada suatu tag html.
@@ -561,7 +684,7 @@ Selector ini digunakan untuk memilih elemen dengan atribut "class" tertentu.
   background-color: red;
 }
 ```
-elemen dengan atribut class="btn-primary" akan memiliki latar belakang berwarna merah.
+elemen dengan atribut class="btn-primary" akan memiliki background berwarna merah.
 
 ## Jelaskan HTML5 Tag yang kamu ketahui.
 HTML5 adalah versi terbaru dari HTML.

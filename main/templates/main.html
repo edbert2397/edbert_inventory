@@ -13,41 +13,129 @@
         </div>
     </div>
 
-    <table class="w-full mb-8">
-        <thead>
-            <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Amount</th>
-                <th class="text-left">Description</th>
-                <th class="text-left">Date Added</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-                <tr class="border-b">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.amount }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.date_added }}</td>
-                    <td><a href="{% url 'main:delete_item' item.id %}" class="text-red-500 hover:text-red-700">Delete</a></td>
-                    <td><a href="{% url 'main:increase_item' item.id %}" class="text-green-500 hover:text-green-700">Increase</a></td>
-                    <td><a href="{% url 'main:decrease_item' item.id %}" class="text-orange-500 hover:text-orange-700">Decrease</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div id="item_card" class="w-full mb-8 flex flex-wrap justify-center">
+        <!-- <div class="card max-w-sm w-full p-4 m-2 border bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-4 py-2">
+                <h2 class="text-xl font-semibold text-gray-700">Item Name</h2>
+                <p class="mt-2 text-gray-600"><strong>Amount:</strong> 10</p>
+                <p class="mt-2 text-gray-600"><strong>Description:</strong> Sample description of the item.</p>
+                <p class="mt-2 text-gray-600"><strong>Date Added:</strong> 2023-10-11</p>
+                <button data-id="${item.pk}" onclick="deleteItem(this.getAttribute('data-id'))" class="text-red-500 hover:text-red-700">Delete</button>
+
+            </div> 
+        </div> -->
+    </div>
+    
+    
 
     <div class="flex justify-between items-center">
         <h5 class="text-lg font-semibold">Sesi terakhir login: {{ last_login }}</h5>
         
         <div class="flex space-x-4">
-            <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New Item</a>
+            <!-- <button type="button" @click="isOpen = true" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Add Product by AJAX</button> -->
+            <div x-data="{ isOpen: false }">
+                <!-- Modal -->
+                <div class="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50" x-show="isOpen" x-cloak>
+                    <div class="flex items-center justify-center min-h-screen">
+                        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <div class="modal-content py-4 text-left px-6">
+                                <div class="flex justify-between items-center pb-3">
+                                    <h1 class="text-2xl font-bold" id="exampleModalLabel">Add New Product</h1>
+                                    <button @click="isOpen = false" class="modal-close p-2 bg-red-500 rounded-full hover:bg-red-400 focus:outline-none focus:ring">
+                                        <!-- tombol x -->
+                                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                            <path d="M6.293 6.293a1 1 0 011.414 0L9 7.586l1.293-1.293a1 1 0 111.414 1.414L10.414 9l1.293 1.293a1 1 0 01-1.414 1.414L9 10.414l-1.293 1.293a1 1 0 01-1.414-1.414L7.586 9 6.293 7.707a1 1 0 010-1.414z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <form id="form" x-on:submit.prevent="addProduct">
+                                    <div class="mb-4">
+                                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                                        <input type="text" class="form-input w-full rounded border-gray-300" id="name" name="name">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
+                                        <input type="number" class="form-input w-full rounded border-gray-300" id="amount" name="amount">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                                        <textarea class="form-textarea w-full rounded border-gray-300" id="description" name="description"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer py-2 px-4 flex justify-end">
+                                <button type="button" @click="isOpen = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full focus:outline-none focus:ring">Close</button>
+                                <button type="button" @click="addItem(); isOpen = false" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 rounded-full focus:outline-none focus:ring">Add Product</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Button -->
+                <button type="button" @click="isOpen = true" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Product by AJAX</button>
+            </div>
+            <!-- <a href="{% url 'main:create_item' %}" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New Item</a> -->
             <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logout</a>
         </div>
     </div>
 </div>
+
+
+<script>
+    async function getItem() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+
+    
+
+    async function refreshProducts() {
+        document.getElementById("item_card").innerHTML = ""; // Clear the container
+        const items = await getItem();
+        
+        items.forEach((item) => {
+            let cardHTML = `
+            <div class="card w-1/4 p-4 m-2 border rounded">
+                <h2 class="text-xl">${item.fields.name}</h2>
+                <p><strong>Amount:</strong> ${item.fields.amount}</p>
+                <p><strong>Description:</strong> ${item.fields.description}</p>
+                <p><strong>Date Added:</strong> ${item.fields.date_added}</p>
+                <button data-id="${item.pk}" onclick="deleteItem(this.getAttribute('data-id'))" class="text-red-500 hover:text-red-700">Delete</button>
+            </div>`;
+            
+            document.getElementById("item_card").innerHTML += cardHTML;
+        });
+    }
+
+    refreshProducts();
+
+    async function deleteItem(itemId) {
+        const deleteUrl = `{% url 'main:delete_item_ajax' item_id=999 %}`.replace('999', itemId);
+        console.log(itemId);
+        try {
+            const response = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            }).then(refreshProducts)
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
+    function addItem(){
+        fetch("{% url 'main:add_item_ajax' %}",{
+            method : "POST",
+            body : new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset();
+        return false;
+    }
+
+    document.getElementById("button_add").onclick = addItem;
+</script>
 {% endblock content %}
     

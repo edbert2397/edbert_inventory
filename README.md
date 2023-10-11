@@ -734,3 +734,162 @@ Tailwind css memberikan fleksibilitas dan adaptabilitas yang tinggi, sedangkan B
 Tailwind lebih baik digunakan saat memberikan styling yang lebih kompleks dan unik dalam jangka waktu yang lebih lama, sedangkan Bootstrap digunakan saat memberikan styling yang lebih sederhana dalam jangka waktu yang lebih cepat. 
 
 </details>
+
+<details>
+
+<summary> Tugas 6 </summary>
+
+# Pertanyaan
+
+## Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+
+Dalam synchronous proggraming, tugas-tugas akan dieksekusi secara berurutan satu per satu. Ketika sebuah tugas dimulai, program akan menunggu hingga tugas tersebut selesai, sebelum melanjutkan ke tugas berikutnya.
+Sedangkan dalam asynchronous proggraming, operasi dijalankan secara bersamaan.
+
+## Jelaskan maksud dari paradigma event-driven programming tersebut dan sebutkan salah satu contoh penerapannya 
+
+Event-driven programming merupakan saat program merespon suatu kejadian ketika terdapat suatu trigger yang terjadi. Salah satu contohnya adalah button counter dimana button tersebut akan menambahkan suatu nilai dengan satu hanya jika button dipencet (event).
+
+## Jelaskan penerapan asynchronous programming pada AJAX.
+
+Konsep utama di balik AJAX (Asynchronous JavaScript and XML) adalah kemampuan untuk mengirim permintaan ke server dan menerima respons dari server tanpa harus memuat ulang seluruh halaman web. Ini memungkinkan perubahan konten pada halaman web tanpa mengganggu atau merefresh seluruh halaman. 
+
+## bandingkan Fetch API daripada library jQuery dan tuliskan pendapat  teknologi manakah yang lebih baik untuk digunakan.
+
+Fetch API adalah bagian dari JavaScript modern dan merupakan bagian bawaan dari bahasa JavaScript. Ini berarti tidak perlu mengunduh atau mengimpor library tambahan, sehingga mengurangi overhead dan membuat halaman web lebih ringan. Fetch API mengadopsi konsep promise, yang memungkinkan untuk mengelola permintaan HTTP dengan cara yang lebih bersih dan mudah dipahami. Hal ini juga memberikan fleksibilitas dalam mengelola respons HTTP dalam berbagai format, seperti JSON, blob, dan lainnya. 
+
+Di sisi lain, jQuery adalah library JavaScript yang telah ada sejak lama dan diketahui untuk kompatibilitasnya dengan berbagai browser yang lebih tua. Ini membuat jQuery bisa berguna jika  harus mendukung browser-browser lama. jQuery menyediakan abstraksi yang kuat untuk AJAX, sehingga memungkinkan penulisan kode yang lebih pendek dan lebih mudah digunakan untuk tugas-tugas sederhana.
+
+Pilihan antara Fetch API dan jQuery tergantung pada kebutuhan proyek dan preferensi. Jika Anda ingin menggunakan teknologi yang lebih modern dan memiliki kemampuan yang lebih kuat, Fetch API adalah pilihan yang lebih baik. Namun, jika harus mendukung browser lama atau memerlukan kemudahan dalam penulisan kode untuk tugas sederhana, maka jQuery mungkin lebih sesuai.
+
+# Implementasi
+
+## 1.Mengubah kustomisasi halaman daftar inventori menggunakan card
+
+Kurang lebih bentuknya akan seperti ini:
+
+```python
+<div id="item_card" class="w-full mb-8 flex flex-wrap justify-center">
+        <!-- <div class="card max-w-sm w-full p-4 m-2 border bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-4 py-2">
+                <h2 class="text-xl font-semibold text-gray-700">Item Name</h2>
+                <p class="mt-2 text-gray-600"><strong>Amount:</strong> 10</p>
+                <p class="mt-2 text-gray-600"><strong>Description:</strong> Sample description of the item.</p>
+                <p class="mt-2 text-gray-600"><strong>Date Added:</strong> 2023-10-11</p>
+                <button data-id="${item.pk}" onclick="deleteItem(this.getAttribute('data-id'))" class="text-red-500 hover:text-red-700">Delete</button>
+
+            </div> 
+        </div> -->
+    </div>
+```
+
+## 2.Menambah Ajax GET
+
+Menambahkan kode berikut didalam script pada main.html
+
+```python
+    async function getItem() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+    async function refreshProducts() {
+        document.getElementById("item_card").innerHTML = ""; // Clear the container
+        const items = await getItem();
+        
+        items.forEach((item) => {
+            let cardHTML = `
+            <div class="card w-1/4 p-4 m-2 border rounded">
+                <h2 class="text-xl">${item.fields.name}</h2>
+                <p><strong>Amount:</strong> ${item.fields.amount}</p>
+                <p><strong>Description:</strong> ${item.fields.description}</p>
+                <p><strong>Date Added:</strong> ${item.fields.date_added}</p>
+                <button data-id="${item.pk}" onclick="deleteItem(this.getAttribute('data-id'))" class="text-red-500 hover:text-red-700">Delete</button>
+            </div>`;
+            
+            document.getElementById("item_card").innerHTML += cardHTML;
+        });
+    }
+
+    refreshProducts();
+```
+
+fungsi getItem() akan dijalankan dalam refreshProducts() saat pertama kali halaman dimuat dan akan dipanggil setiap kali refreshProducts() dijalankan
+
+## 3.Menambah Ajax POST
+
+Membuat tombol yang membuka sebuah modal dengan form untuk menambahkan item. Tombol tersebut ketika dipencet, akan menampilkan suatu modal(yang sebelumnya hidden) yang berfungsi untuk mengisi data. Kemudian setelah mengisi semua data yang diperlukan, kita hanya perlu memencet button Add Product yang ketika diklik, akan memanggil fungsi addProduct yang melakukan fetch pada semua data pada form.
+
+menambah addItem() pada script di html, then(refreshProducts) pada code tersebut akan merefresh daftar item terbaru setelah menambah item
+
+```python
+function addItem(){
+        fetch("{% url 'main:add_item_ajax' %}",{
+            method : "POST",
+            body : new FormData(document.querySelector('#form'))
+        }).then(refreshProducts)
+
+        document.getElementById("form").reset();
+        return false;
+    }
+
+    document.getElementById("button_add").onclick = addItem;
+```
+
+membuat path yang mengarah ke fungsi add_item_ajax pada views
+```python
+    path('create-item-ajax/',add_item_ajax,name = 'add_item_ajax'),
+```
+
+menambah function add_item_ajax pada view.py
+
+```python
+@csrf_exempt
+def add_item_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        amount = request.POST.get('amount')
+        description = request.POST.get('description')
+        user = request.user
+    
+    new_item = Item(name = name,amount = amount,description = description, user = user)
+    new_item.save()
+
+    return HttpResponse(b"CREATED",status = 201)
+```
+## 4.Menambah AJAX Delete
+
+menambah deleteItem() pada script di html, then(refreshProducts) pada code tersebut akan merefresh daftar item terbaru setelah menambah item
+
+```python
+async function deleteItem(itemId) {
+        const deleteUrl = `{% url 'main:delete_item_ajax' item_id=999 %}`.replace('999', itemId);
+        try {
+            const response = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            }).then(refreshProducts)
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+```
+
+membuat path yang mengarah ke fungsi delete_item_ajax pada views
+```python
+    path('delete-item-ajax/<int:item_id>/', delete_item_ajax, name='delete_item_ajax'),
+```
+
+menambah function delete_item_ajax pada view.py
+
+```python
+@csrf_exempt
+def delete_item_ajax(request, item_id):
+    if request.method == 'DELETE':
+        item = Item.objects.get(id=item_id)
+        item.delete()
+        return HttpResponse({'status': 'DELETED'}, status=200)
+    
+```
+</details>

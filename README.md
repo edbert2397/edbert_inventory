@@ -20,7 +20,7 @@ Installasi saya lakukan dalam windows powershell dengan cara:
 ```sh
 python -m venv env # Buat virtual env
 ./venv/Scripts/activate # pada windows atau
-pip install -r requirements.txt
+pip install -r requirements.txt #
 ```
 
 ## 1. Membuat sebuah proyek Django baru

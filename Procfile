@@ -1,2 +1,2 @@
 release: django-admin migrate --noinput
-web: gunicorn inventory.wsgi
+web: gunicorn edbert_inventory.wsgi

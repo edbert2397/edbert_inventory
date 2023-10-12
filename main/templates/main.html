@@ -3,7 +3,8 @@
 {% block content %}
 <div class="container mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-lg">
     <h1 class="flex justify-center text-4xl font-semibold mb-4">{{ name_app }}</h1>
-    <h2 class="flex justify-center text-xl mb-6">{{ cnt }} books</h2>
+    <h2 id="book-count" class="flex justify-center text-xl mb-6">{{ cnt }} books</h2>
+
 
     <div class="mb-4">
         <h5 class="text-lg font-semibold">Details:</h5>
@@ -110,30 +111,96 @@
 
     async function deleteItem(itemId) {
         const deleteUrl = `{% url 'main:delete_item_ajax' item_id=999 %}`.replace('999', itemId);
-        console.log(itemId);
         try {
             const response = await fetch(deleteUrl, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}'
                 }
-            }).then(refreshProducts)
-            
+            });
+
+            if (response.ok) {
+                // Decrement the book count displayed
+                const bookCountElem = document.getElementById("book-count");
+                const currentCount = parseInt(bookCountElem.textContent, 10); // extract the current number from the string
+                bookCountElem.textContent = `${currentCount - 1} books`;
+
+                refreshProducts();
+            } else {
+                console.error('Failed to delete product');
+            }
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
+    // async function deleteItem(itemId) {
+    //     const deleteUrl = `{% url 'main:delete_item_ajax' item_id=999 %}`.replace('999', itemId);
+    //     console.log(itemId);
+    //     try {
+    //         const response = await fetch(deleteUrl, {
+    //             method: 'DELETE',
+    //             headers: {
+    //                 'X-CSRFToken': '{{ csrf_token }}'
+    //             }
+    //         }).then(refreshProducts)
+            
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // }
 
-    function addItem(){
-        fetch("{% url 'main:add_item_ajax' %}",{
-            method : "POST",
-            body : new FormData(document.querySelector('#form'))
-        }).then(refreshProducts)
+    function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        })
+        .then(response => {
+            if (response.ok) {
+                // Increment the book count displayed
+                const bookCountElem = document.getElementById("book-count");
+                const currentCount = parseInt(bookCountElem.textContent, 10); // extract the current number from the string
+                bookCountElem.textContent = `${currentCount + 1} books`;
 
-        document.getElementById("form").reset();
-        return false;
+                refreshProducts();
+                document.getElementById("form").reset();
+            } else {
+                console.error('Failed to add product');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
+
+    // function addItem() {
+    // fetch("{% url 'main:add_item_ajax' %}", {
+    //     method: "POST",
+    //     body: new FormData(document.querySelector('#form'))
+    // }).then(response => {
+    //     if (response.ok) {
+    //         refreshProducts();
+    //         updateBookCount();
+    //     }
+    // });
+
+    // document.getElementById("form").reset();
+    // return false;
+    // }
+    // function updateBookCount() {
+    //     getItem().then(items => {
+    //         const count = items.length;
+    //         document.querySelector("h2").textContent = `${count} books`;
+    //     });
+    // }
+
+    // function addItem(){
+    //     fetch("{% url 'main:add_item_ajax' %}",{
+    //         method : "POST",
+    //         body : new FormData(document.querySelector('#form'))
+    //     }).then(refreshProducts)
+
+    //     document.getElementById("form").reset();
+    //     return false;
+    // }
 
     document.getElementById("button_add").onclick = addItem;
 </script>

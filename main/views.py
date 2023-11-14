@@ -73,7 +73,7 @@ def increase_item(request,item_id):
     return HttpResponseRedirect(reverse('main:show_main'))
 def decrease_item(request,item_id):
     item = Item.objects.get(pk = item_id)
-    if(item.amount > 0):
+    if(item.amount >= 1):
         item.amount -= 1
     item.save()
     return HttpResponseRedirect(reverse('main:show_main'))

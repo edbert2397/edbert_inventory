@@ -1,5 +1,6 @@
+import json
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from main.forms import ItemForm
 from django.urls import reverse
 from .models import Item
@@ -26,6 +27,25 @@ def show_main(request):
     }
     return render(request,"main.html",context)
 
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_product = Item.objects.create(
+            user = request.user,
+            name = data["name"],
+            amount = int(data["amount"]),
+            description = data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+    
 def create_item(request):
     form = ItemForm(request.POST or None)
     if form.is_valid() and request.method == "POST":
@@ -125,3 +145,4 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
